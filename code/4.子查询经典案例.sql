@@ -196,26 +196,43 @@ WHERE department_id=(
 # 8. 查询平均工资最高的部门的 manager 的详细信息: last_name, department_id, email, salary
 #①查询平均工资最高的部门编号
 SELECT 
-    department_id 
+  department_id 
 FROM
-    employees 
+  employees 
 GROUP BY department_id 
 ORDER BY AVG(salary) DESC 
-LIMIT 1 
-
-#②将employees和departments连接查询，筛选条件是①
-    SELECT 
-        last_name, d.department_id, email, salary 
+LIMIT 1 #②将employees和departments连接查询，筛选条件是①
+  SELECT 
+    last_name, d.department_id, email, salary 
+  FROM
+    employees e 
+    INNER JOIN departments d 
+      ON d.manager_id = e.employee_id 
+  WHERE d.department_id = 
+    (SELECT 
+      department_id 
     FROM
-        employees e 
-        INNER JOIN departments d 
-            ON d.manager_id = e.employee_id 
-    WHERE d.department_id = 
-        (SELECT 
-            department_id 
-        FROM
-            employees 
-        GROUP BY department_id 
-        ORDER BY AVG(salary) DESC 
-        LIMIT 1) ;
+      employees 
+    GROUP BY department_id 
+    ORDER BY AVG(salary) DESC 
+    LIMIT 1) ;
 
+# -----------------
+
+SELECT 
+  e.last_name,
+  e.department_id,
+  e.email,
+  e.salary 
+FROM
+  departments d 
+  LEFT OUTER JOIN employees e 
+    ON d.manager_id = e.`employee_id` 
+WHERE d.department_id = 
+  (SELECT 
+    department_id 
+  FROM
+    employees 
+  GROUP BY department_id 
+  ORDER BY AVG(salary) DESC 
+  LIMIT 1)
