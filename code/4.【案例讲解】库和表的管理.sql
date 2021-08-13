@@ -6,7 +6,9 @@ NAME		VARCHAR(25)
 
 USE test;
 
-CREATE TABLE dept1(
+DROP TABLE IF EXISTS dept1;
+
+CREATE TABLE IF NOT EXISTS dept1(
 	id INT(7),
 	NAME VARCHAR(25)
 	
@@ -14,10 +16,13 @@ CREATE TABLE dept1(
 );
 #2.	将表departments中的数据插入新表dept2中
 
+DROP TABLE IF EXISTS dept2;
+
 CREATE TABLE dept2
 SELECT department_id,department_name
 FROM myemployees.departments;
 
+SELECT * FROM dept2;
 
 #3.	创建表emp5
 NAME	NULL?	TYPE
@@ -25,6 +30,8 @@ id		INT(7)
 First_name	VARCHAR (25)
 Last_name	VARCHAR(25)
 Dept_id		INT(7)
+
+DROP TABLE IF EXISTS emp5;
 
 CREATE TABLE emp5(
 id INT(7),

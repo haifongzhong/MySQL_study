@@ -130,8 +130,7 @@ SET b.`phone`='119',bo.`userCP`=1000
 WHERE bo.`boyName`='张无忌';
 
 
-
-#案例2：修改没有男朋友的女神的男朋友编号都为2号
+#案例2：修改没有男朋友或者男朋友不在boys表中的女神的男朋友编号都为2号
 
 UPDATE boys bo
 RIGHT JOIN beauty b ON bo.`id`=b.`boyfriend_id`
@@ -225,7 +224,7 @@ SELECT * FROM boys;
 
 DELETE FROM boys;
 TRUNCATE TABLE boys;
-INSERT INTO boys (boyname,usercp)
+INSERT INTO boys (boyName,userCP)
 VALUES('张飞',100),('刘备',100),('关云长',100);
 
 

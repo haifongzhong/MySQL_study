@@ -494,7 +494,6 @@ sql92
 		bornDate DATETIME
 
 
-​	
 ​	);
 ​	
 ​	DESC studentinfo;

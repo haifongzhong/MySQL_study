@@ -1,13 +1,15 @@
 #1.	运行以下脚本创建表my_employees
 
 USE myemployees;
-CREATE TABLE my_employees(
+DROP TABLE IF EXISTS my_employees;
+CREATE TABLE IF NOT EXISTS my_employees(
 	Id INT(10),
 	First_name VARCHAR(10),
 	Last_name VARCHAR(10),
 	Userid VARCHAR(10),
 	Salary DOUBLE(10,2)
 );
+DROP TABLE IF EXISTS users;
 CREATE TABLE users(
 	id INT,
 	userid VARCHAR(10),
@@ -18,12 +20,14 @@ CREATE TABLE users(
 DESC my_employees;
 
 #3.	向my_employees表中插入下列数据
-ID	FIRST_NAME	LAST_NAME	USERID	SALARY
-1	patel		Ralph		Rpatel	895
-2	Dancs		Betty		Bdancs	860
-3	Biri		Ben		Bbiri	1100
-4	Newman		Chad		Cnewman	750
+ID	FIRST_NAME	LAST_NAME	USERID		SALARY
+1	patel		Ralph		Rpatel		895
+2	Dancs		Betty		Bdancs		860
+3	Biri		Ben		Bbiri		1100
+4	Newman		Chad		Cnewman		750
 5	Ropeburn	Audrey		Aropebur	1550
+
+SELECT * FROM my_employees;
 
 #方式一：
 INSERT INTO my_employees
@@ -33,6 +37,8 @@ VALUES(1,'patel','Ralph','Rpatel',895),
 (4,'Newman','Chad','Cnewman',750),
 (5,'Ropeburn','Audrey','Aropebur',1550);
 DELETE FROM my_employees;
+
+TRUNCATE TABLE my_employees;
 #方式二：
 
 INSERT INTO my_employees
@@ -44,16 +50,18 @@ SELECT 5,'Ropeburn','Audrey','Aropebur',1550;
 
 				
 #4.	 向users表中插入数据
-1	Rpatel	10
-2	Bdancs	10
-3	Bbiri	20
-4	Cnewman	30
+1	Rpatel		10
+2	Bdancs		10
+3	Bbiri		20
+4	Cnewman		30
 5	Aropebur	40
 
 INSERT INTO users
 VALUES(1,'Rpatel',10),
 (2,'Bdancs',10),
-(3,'Bbiri',20);
+(3,'Bbiri',20),
+(4,'Cnewman',30),
+(5,'Aropebur',40);
 
 
 
