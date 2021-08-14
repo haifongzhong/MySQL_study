@@ -170,3 +170,7 @@ SELECT id,au_name
 FROM book
 WHERE 0;
 
+drop table test.`c`
+
+
+drop database `books`

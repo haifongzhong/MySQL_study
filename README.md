@@ -476,7 +476,7 @@ sql92
 	#4.truncate删除不能回滚，delete删除可以回滚
 
 ## DDL语句
-### 库和表的管理
+### [库和表的管理](/code/4.库和表的管理.sql)
 库的管理：
 
 	一、创建库
@@ -492,27 +492,36 @@ sql92
 		stuName VARCHAR(20),
 		gender CHAR,
 		bornDate DATETIME
+	);
+	
+	DESC studentinfo;
 
 
-​	);
-​	
-​	DESC studentinfo;
-​	#2.修改表 alter
-​	语法：ALTER TABLE 表名 ADD|MODIFY|DROP|CHANGE COLUMN 字段名 【字段类型】;
-​	
-​	#①修改字段名
-​	ALTER TABLE studentinfo CHANGE  COLUMN sex gender CHAR;
-​	
-​	#②修改表名
-​	ALTER TABLE stuinfo RENAME [TO]  studentinfo;
-​	#③修改字段类型和列级约束
-​	ALTER TABLE studentinfo MODIFY COLUMN borndate DATE ;
-​	
-​	#④添加字段
-​	
-​	ALTER TABLE studentinfo ADD COLUMN email VARCHAR(20) first;
-​	#⑤删除字段
-​	ALTER TABLE studentinfo DROP COLUMN email;
+
+
+```tex
+# 2.修改表 alter
+
+语法：ALTER TABLE 表名 ADD|MODIFY|DROP|CHANGE COLUMN 字段名 【字段类型】;
+
+#修改字段名
+	ALTER TABLE studentinfo CHANGE  COLUMN sex gender CHAR;
+
+#修改表名
+	ALTER TABLE stuinfo RENAME [TO]  studentinfo;
+
+#修改字段类型和列级约束
+	ALTER TABLE studentinfo MODIFY COLUMN borndate DATE ;
+
+#添加字段【可以通过”first|after 字段名“指定列添加的位置】
+	ALTER TABLE studentinfo ADD COLUMN email VARCHAR(20) first;
+
+#删除字段
+	ALTER TABLE studentinfo DROP COLUMN email;
+	
+```
+
+
 
 
 	# 3.删除表
@@ -520,25 +529,140 @@ sql92
 	DROP TABLE [IF EXISTS] studentinfo;
 
 
-​	
 
-### 常见类型
+```TEX
+# 4.复制表【支持跨库复制，添加‘库名.’连接】
 
-	整型：
-		
-	小数：
-		浮点型
-		定点型
-	字符型：
-	日期型：
-	Blob类型：
+# 复制表的结构
+create table 表一 like 表二
 
+# 复制表结构+数据
+create table 表名
+select 查询列表 from 旧表 【筛选条件】
+```
 
 
-### 常见约束
+
+
+
+### 常见数据类型
+
+```tex
+整型：
+	
+小数：
+	浮点型
+	定点型
+字符型：
+日期型：
+Blob类型：
+```
+
+``` tex
+1.整型
+
+分类：
+tinyint、smallint、mediumint、int/integer、bigint
+1	 2		3	4		8
+
+特点：
+① 如果不设置无符号还是有符号，默认是有符号，如果想设置无符号，需要添加unsigned关键字
+② 如果插入的数值超出了整型的范围,会报out of range异常，并且插入临界值
+③ 如果不设置长度，会有默认的长度
+长度代表了显示的最大宽度，如果不够会用0在左边填充，但必须搭配zerofill使用！
+```
+
+```tex
+2.小数
+
+分类：
+1.浮点型
+float(M,D)
+double(M,D)
+2.定点型
+dec(M，D)
+decimal(M,D)
+
+特点：
+
+①
+M：整数部位+小数部位
+D：小数部位
+如果超过范围，则插入临界值
+
+②
+M和D都可以省略
+如果是decimal，则M默认为10，D默认为0
+如果是float和double，则会根据插入的数值的精度来决定精度
+
+③定点型的精确度较高，如果要求插入数值的精度较高如货币运算等则考虑使用
+
+```
+
+```tex
+3.字符型
+
+较短的文本：
+
+char
+varchar
+
+其他：
+
+binary和varbinary用于保存较短的二进制
+enum用于保存枚举
+set用于保存集合
+
+
+较长的文本：
+text
+blob(较大的二进制)
+
+特点：
+
+
+
+		写法			M的意思						特点			空间的耗费	效率
+char	char(M)		最大的字符数，可以省略，默认为1	固定长度的字符		比较耗费	高
+
+varchar varchar(M)	最大的字符数，不可以省略			可变长度的字符		比较节省	低
+
+```
+
+```tex
+4.日期型
+
+分类：
+date只保存日期
+time 只保存时间
+year只保存年
+
+datetime保存日期+时间
+timestamp保存日期+时间(时间戳)
+
+
+特点：
+
+			字节		范围			时区等的影响
+datetime	8		1000—9999		不受
+timestamp	4		1970-2038		受
+
+
+涉及时间戳转化的函数：
+
+unix_timestamp：将时间转化为时间戳
+from_unixtime：将timestamp 形式整数 转化为 date类型
+
+```
+
+
+
+
+
+### 常见数据约束
 
 	NOT NULL
-	DEFAULT
+	DEFAULT	
 	UNIQUE
 	CHECK
 	PRIMARY KEY

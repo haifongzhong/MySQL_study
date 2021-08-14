@@ -1,4 +1,4 @@
-﻿#常见的数据类型
+#常见的数据类型
 /*
 数值型：
 	整型
@@ -33,8 +33,8 @@ tinyint、smallint、mediumint、int/integer、bigint
 
 DROP TABLE IF EXISTS tab_int;
 CREATE TABLE tab_int(
-	t1 INT(7) ZEROFILL,
-	t2 INT(7) ZEROFILL 
+	t1 INT(7) ZEROFILL 
+	,t2 INT UNSIGNED 
 
 );
 
@@ -48,7 +48,7 @@ INSERT INTO tab_int VALUES(2147483648,4294967296);
 INSERT INTO tab_int VALUES(123,123);
 
 
-SELECT * FROM tab_int;
+SELECT t1*2 FROM tab_int;
 
 
 #二、小数
@@ -79,8 +79,8 @@ M和D都可以省略
 */
 #测试M和D
 
-DROP TABLE tab_float;
-CREATE TABLE tab_float(
+DROP TABLE IF EXISTS tab_float;
+CREATE TABLE IF NOT EXISTS tab_float(
 	f1 FLOAT,
 	f2 DOUBLE,
 	f3 DECIMAL
@@ -176,40 +176,46 @@ timestamp保存日期+时间
 特点：
 
 		字节		范围		时区等的影响
-datetime	               8		1000——9999	                  不受
-timestamp	4	               1970-2038	                    受
+datetime	8		1000—9999	不受
+timestamp	4               1970-2038	受
+
+
+涉及时间戳转化的函数：
+
+unix_timestamp：将时间转化为时间戳
+from_unixtime：将timestamp 形式整数 转化为 date类型
 
 */
 
 
-CREATE TABLE tab_date(
+USE test;
+
+DROP IF EXISTS tab_date;
+
+CREATE TABLE IF NOT EXISTS tab_date(
 	t1 DATETIME,
 	t2 TIMESTAMP
-
 );
-
-
 
 INSERT INTO tab_date VALUES(NOW(),NOW());
 
 SELECT * FROM tab_date;
 
+SELECT * FROM tab_date;
 
 SHOW VARIABLES LIKE 'time_zone';
 
-SET time_zone='+9:00';
+SET time_zone='+8:00';
+
+SELECT UNIX_TIMESTAMP(NOW());
 
 
 
+SELECT UNIX_TIMESTAMP(t1)
+FROM tab_date;
 
-
-
-
-
-
-
-
-
-
-
-
+SELECT FROM_UNIXTIME(timestamp_s.times)
+FROM (
+	SELECT UNIX_TIMESTAMP(t1) times
+	FROM tab_date
+) timestamp_s
