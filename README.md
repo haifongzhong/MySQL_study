@@ -1,3 +1,9 @@
+[TOC]
+
+
+
+
+
 ## 本单元目标
 	一、为什么要学习数据库
 	二、数据库的相关概念      
@@ -151,7 +157,7 @@
 
 
 ## DQL语言的学习
-### 进阶1：基础查询
+### 进阶1：[基础查询](/code/1.基础查询.sql)
 ​	语法：
 ​	SELECT 要查询的东西
 ​	【FROM 表名】;
@@ -161,7 +167,7 @@
 	①通过select查询完的结果 ，是一个虚拟的表格，不是真实存在
 	② 要查询的东西 可以是常量值、可以是表达式、可以是字段、可以是函数
 
-### 进阶2：条件查询
+### 进阶2：[条件查询](/code/1.条件查询.sql)
 ​	条件查询：根据条件过滤原始表的数据，查询到想要的数据
 ​	语法：
 ​	select 
@@ -189,7 +195,7 @@
 	三、模糊查询
 	示例：last_name like 'a%'
 
-### 进阶3：排序查询	
+### 进阶3：[排序查询](/code/2.排序查询.sql)	
 
 	语法：
 	select
@@ -202,7 +208,7 @@
 	order by 排序的字段|表达式|函数|别名 【asc|desc】
 
 
-### 进阶4：常见函数
+### 进阶4：[常见函数](/code/2.常见函数.sql)
 ​	一、单行函数
 ​	1、字符函数
 ​		concat拼接
@@ -233,7 +239,7 @@
 ​		str_to_date 将字符转换成日期
 ​		date_format 将日期转换成字符
 
-![image-20210807095447921](C:\Users\haifongzhong\AppData\Roaming\Typora\typora-user-images\image-20210807095447921.png)
+![image-20210807095447921](/image-20210807095447921.png)
 
 ​	4、流程控制函数
 ​		if 处理双分支
@@ -270,7 +276,7 @@
 	
 		   建议使用 count(*)
 
-### 进阶5：分组查询
+### 进阶5：[分组查询](/code/2.分组查询.sql)
 
 ​	语法：
 ​	select 查询的字段，分组函数
@@ -291,7 +297,7 @@
 	5、可以支持排序
 	6、having后可以支持别名
 
-### 进阶6：多表连接查询
+### 进阶6：[多表连接查询](/code/连接查询.sql)
 
 	笛卡尔乘积：如果连接条件省略或无效则会出现
 	解决办法：添加上连接条件
@@ -344,7 +350,7 @@ sql92
 	FROM employees e,employees m 
 	WHERE e.`manager_id`=m.`employee_id`;
 
-### 进阶7：子查询
+### 进阶7：[子查询](/code/3.子查询.sql)
 
 含义：
 
@@ -370,7 +376,7 @@ sql92
 		in： 属于子查询结果中的任意一个就行
 		any和all往往可以用其他查询代替
 
-###  进阶8：分页查询
+###  进阶8：[分页查询](/code/3.分页查询.sql)
 
 应用场景：
 
@@ -397,7 +403,7 @@ sql92
 	每页显示条目数sizePerPage
 	要显示的页数 page
 
-### 进阶9：联合查询
+### 进阶9：[联合查询](/code/4.联合查询.sql)
 
 引入：
 	union 联合、合并
@@ -416,7 +422,7 @@ sql92
 	2、多条查询语句的查询的列的类型几乎相同
 	3、union代表去重，union all代表不去重
 
-## DML语言
+## [DML语言](/code/4.数据的增删改.sql)
 
 ### 插入
 
@@ -545,7 +551,7 @@ select 查询列表 from 旧表 【筛选条件】
 
 
 
-### 常见数据类型
+### [常见数据类型](/code/4.数据类型.sql)
 
 ```tex
 整型：
@@ -659,16 +665,155 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 
 
 
-### 常见数据约束
+### [常见数据约束](/code/5.常见约束.sql)
 
-	NOT NULL
-	DEFAULT	
-	UNIQUE
-	CHECK
-	PRIMARY KEY
-	FOREIGN KEY
+	常见的约束类型有六种，MySQL只支持五中
+	
+		NOT NULL：非空，用于保证该字段的值不能为空
+		比如姓名、学号等
+		DEFAULT:默认，用于保证该字段有默认值
+		比如性别
+		PRIMARY KEY:主键，用于保证该字段的值具有唯一性，并且非空
+		比如学号、员工编号等
+		UNIQUE:唯一，用于保证该字段的值具有唯一性，可以为空
+		比如座位号
+		CHECK:检查约束【mysql中不支持】
+		比如年龄、性别
+		FOREIGN KEY:外键，用于限制两个表的关系，用于保证该字段的值必须来自于主表的关联列的值
+			在从表添加外键约束，用于引用主表中某列的值
+		比如学生表的专业编号，员工表的部门编号，员工表的工种编号
 
-## 数据库事务
+```tex
+一、添加约束
+    #1.添加列级约束（MySQL）
+
+    语法：
+
+    直接在字段名和类型后面追加 约束类型即可。
+
+    只支持：默认、非空、主键、唯一
+    不支持：外键约束【以及检查约束】
+
+
+    #2.添加表级约束
+
+    语法：在各个字段的最下面
+     【constraint 约束名】 约束类型(字段名) 
+
+    注意：需要外键约束时必须使用表级约束的格式
+
+
+    #3.主键和唯一的大对比：
+
+            保证唯一性  是否允许为空    一个表中可以有多少个   是否允许组合
+        主键	√		×		至多有1个           √，但不推荐
+        唯一	√		√		可以有多个          √，但不推荐
+
+    #4.外键：
+        1、要求在从表设置外键关系 
+        2、从表的外键列的类型和主表的关联列的类型要求一致或兼容，名称无要求 ★
+        3、主表的关联列必须是一个key（一般是主键或唯一） ★
+        4、插入数据时，先插入主表，再插入从表
+            删除数据时，先删除从表，再删除主表
+        5、创建表时，先创主表，再创从表
+            删除表时，先删从表，再删主表
+
+    #5.通用写法
+
+    drop table if exists major;
+
+    drop table if exists stuinfo;
+
+    CREATE TABLE if not exists major(
+        id INT(7) ZEROFILL PRIMARY KEY ,
+        majorName VARCHAR(20) NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS stuinfo(
+        id INT(9) zerofill PRIMARY KEY,
+        stuname VARCHAR(20),
+        sex CHAR(1),
+        age INT DEFAULT 18,
+        seat INT UNIQUE,
+        majorid INT(7) ZEROFILL,
+        CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id)
+
+    );
+
+```
+
+[主表与从表](https://blog.csdn.net/weixin_42348021/article/details/113032110)
+
+```tex
+
+二、修改表时添加约束
+
+    1、添加列级约束
+    alter table 表名 modify column 字段名 字段类型 新约束;
+
+    2、添加表级约束
+    alter table 表名 add 【constraint 约束名】 约束类型(字段名) 【外键的引用】;
+    
+        #1.添加非空约束
+        ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20)  NOT NULL;
+        #2.添加默认约束
+        ALTER TABLE stuinfo MODIFY COLUMN age INT DEFAULT 18;
+        #3.添加主键
+        #	①列级约束
+        	ALTER TABLE stuinfo MODIFY COLUMN id INT PRIMARY KEY;
+        #	②表级约束
+        	ALTER TABLE stuinfo ADD PRIMARY KEY(id);
+        #4.添加唯一
+        #	①列级约束
+        	ALTER TABLE stuinfo MODIFY COLUMN seat INT UNIQUE;
+        #	②表级约束
+        	ALTER TABLE stuinfo ADD UNIQUE(seat);
+        #5.添加外键
+        ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+		
+```
+
+```tex
+三、修改表时删除约束
+
+    #1.删除非空约束
+    ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20) NULL;
+
+    #2.删除默认约束
+    ALTER TABLE stuinfo MODIFY COLUMN age INT ;
+
+    #3.删除主键
+    ALTER TABLE stuinfo DROP PRIMARY KEY;
+
+    #4.删除唯一
+    ALTER TABLE stuinfo DROP INDEX seat;
+
+    #5.删除外键
+    ALTER TABLE stuinfo DROP FOREIGN KEY fk_stuinfo_major;
+
+    SHOW INDEX FROM stuinfo;
+```
+
+### [标识列](/code/5.标识列.sql)
+
+```tex
+又称为自增长列
+含义：可以不用手动的插入值，系统提供默认的序列值
+
+
+特点：
+1、标识列必须和主键搭配吗？	不一定，但要求是一个（唯一）key(primary key/unique/foreign key)
+2、一个表可以有几个标识列？	至多一个！
+3、标识列的类型只能是数值型
+4、标识列可以通过 "SET auto_increment_increment=3;" 设置步长
+	可以通过手动插入值，设置起始值
+
+```
+
+
+
+## [数据库事务](/code/5.事务.sql)
+
 ### 含义
 ​	通过一组逻辑操作单元（一组DML——sql语句），将数据从一种状态切换到另外一种状态
 
@@ -685,7 +830,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 	2、编写事务的一组逻辑操作单元（多条sql语句）
 	3、提交事务或回滚事务
 
-### 事务的分类：
+### 事务的分类
 
 隐式事务，没有明显的开启和结束事务的标志
 
@@ -715,7 +860,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 	commit to 断点
 	rollback to 断点
 
-### 事务的隔离级别:
+### 事务的隔离级别
 
 事务并发问题如何发生？
 

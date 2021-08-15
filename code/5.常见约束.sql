@@ -73,10 +73,10 @@ CREATE DATABASE students;
 */
 
 USE students;
-DROP TABLE stuinfo;
-CREATE TABLE stuinfo(
+DROP TABLE IF EXISTS stuinfo;
+CREATE TABLE IF NOT EXISTS stuinfo(
 	id INT PRIMARY KEY,#主键
-	stuName VARCHAR(20) NOT NULL UNIQUE,#非空
+	stuName VARCHAR(20) NOT NULL ,#非空
 	gender CHAR(1) CHECK(gender='男' OR gender ='女'),#检查
 	seat INT UNIQUE,#唯一
 	age INT DEFAULT  18,#默认约束
@@ -84,10 +84,11 @@ CREATE TABLE stuinfo(
 
 );
 
+DROP TABLE IF EXISTS major;
 
-CREATE TABLE major(
-	id INT PRIMARY KEY,
-	majorName VARCHAR(20)
+CREATE TABLE IF NOT EXISTS major(
+	id INT(7) ZEROFILL PRIMARY KEY ,
+	majorName VARCHAR(20) NOT NULL
 );
 
 #查看stuinfo中的所有索引，包括主键、外键、唯一
@@ -102,13 +103,13 @@ SHOW INDEX FROM stuinfo;
 */
 
 DROP TABLE IF EXISTS stuinfo;
-CREATE TABLE stuinfo(
+CREATE TABLE IF NOT EXISTS stuinfo(
 	id INT,
 	stuname VARCHAR(20),
 	gender CHAR(1),
 	seat INT,
 	age INT,
-	majorid INT,
+	majorid ,
 	
 	CONSTRAINT pk PRIMARY KEY(id),#主键
 	CONSTRAINT uq UNIQUE(seat),#唯一键
@@ -127,17 +128,27 @@ SHOW INDEX FROM stuinfo;
 
 #通用的写法：★
 
+
+DROP TABLE IF EXISTS stuinfo;
+
+DROP TABLE IF EXISTS major;
+
+CREATE TABLE IF NOT EXISTS major(
+	id INT(7) ZEROFILL PRIMARY KEY ,
+	majorName VARCHAR(20) NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS stuinfo(
-	id INT PRIMARY KEY,
+	id INT(9) ZEROFILL PRIMARY KEY,
 	stuname VARCHAR(20),
 	sex CHAR(1),
 	age INT DEFAULT 18,
 	seat INT UNIQUE,
-	majorid INT,
+	majorid INT(7) ZEROFILL,
 	CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id)
 
 );
-
 
 
 #二、修改表时添加约束

@@ -19,25 +19,33 @@
 
 DROP TABLE IF EXISTS tab_identity;
 CREATE TABLE tab_identity(
-	id INT  ,
-	NAME FLOAT UNIQUE AUTO_INCREMENT,
-	seat INT 
-
-
+	userId INT(7) ZEROFILL PRIMARY KEY AUTO_INCREMENT ,
+	userName VARCHAR(20) NOT NULL
 );
-TRUNCATE TABLE tab_identity;
+TRUNCATE TABLE tab_identity;		
+DELETE  FROM tab_identity;
 
-
-INSERT INTO tab_identity(id,NAME) VALUES(NULL,'john');
-INSERT INTO tab_identity(NAME) VALUES('lucy');
+INSERT INTO tab_identity(userId,userName) VALUES(NULL,'john');
+INSERT INTO tab_identity(userName) VALUES('lucy');
 SELECT * FROM tab_identity;
 
-
+# 查询auto_increment的起始值以及步长值
 SHOW VARIABLES LIKE '%auto_increment%';
 
-
+# mysql中不支持设置起始变量，但支持偏移量（步长），一般不推荐修改
 SET auto_increment_increment=3;
 
+# 更改其实值的代替方式
+INSERT INTO tab_identity(userId,userName) VALUES(10,'john');
+INSERT INTO tab_identity(userId,userName) VALUES(NULL,'john');
+
+#二、修改表时设置标识列
+
+ALTER TABLE tab_identity MODIFY COLUMN userId INT PRIMARY KEY AUTO_INCREMENT;
+
+#三、修改表时删除标识列
+
+ALTER TABLE tab_identity MODIFY COLUMN userId INT ;
 
 
 
