@@ -62,7 +62,7 @@ serializable	  ×             ×               ×
 mysql中默认 第三个隔离级别 repeatable read
 oracle中默认第二个隔离级别 read committed
 查看隔离级别
-select @@tx_isolation;
+select @@transaction_isolation;
 设置隔离级别
 set session|global transaction isolation level 隔离级别;
 
@@ -124,9 +124,9 @@ ROLLBACK;
 #3.演示savepoint 的使用
 SET autocommit=0;
 START TRANSACTION;
-DELETE FROM account WHERE id=25;
+DELETE FROM account WHERE id=1;
 SAVEPOINT a;#设置保存点
-DELETE FROM account WHERE id=28;
+DELETE FROM account WHERE id=2;
 ROLLBACK TO a;#回滚到保存点
 
 

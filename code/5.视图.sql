@@ -19,6 +19,8 @@ FROM stuinfo s
 INNER JOIN major m ON s.`majorid`= m.`id`
 WHERE s.`stuname` LIKE '张%';
 
+DROP VIEW IF EXISTS v1;
+
 CREATE VIEW v1
 AS
 SELECT stuname,majorname

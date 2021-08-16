@@ -886,28 +886,27 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 	通过设置事务的隔离级别
 	1、READ UNCOMMITTED
 	2、READ COMMITTED 可以避免脏读
-	3、REPEATABLE READ 可以避免脏读、不可重复读和一部分幻读
-	4、SERIALIZABLE可以避免脏读、不可重复读和幻读
+	3、REPEATABLE READ 可以避免脏读、不可重复读和一部分幻读（默认）
+	4、SERIALIZABLE可以避免脏读、不可重复读和幻读，但效率低下
 
 设置隔离级别：
 
 	set session|global  transaction isolation level 隔离级别名;
 查看隔离级别：
 
-	select @@tx_isolation;
+	select @@transaction_isolation;
 
 
 
 ## 视图
 含义：理解成一张虚拟的表
 
-视图和表的区别：
-	
-		使用方式	占用物理空间
-	
-	视图	完全相同	不占用，仅仅保存的是sql逻辑
-	
-	表	完全相同	占用
+视图和表的区别：	
+
+|      | 使用方式 | 占用物理空间                |
+| ---- | -------- | --------------------------- |
+| 视图 | 完全相同 | 不占用，仅仅保存的是sql逻辑 |
+| 表   | 完全相同 | 占用                        |
 
 视图的好处：
 
@@ -922,21 +921,23 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 ​	查询语句;
 
 ### 视图的增删改查
-​	1、查看视图的数据 ★
-​	
+```tex
+1、查看视图的数据 ★
+SELECT * FROM my_v4;
+SELECT * FROM my_v1 WHERE last_name='Partners';
 
-	SELECT * FROM my_v4;
-	SELECT * FROM my_v1 WHERE last_name='Partners';
-	
-	2、插入视图的数据
-	INSERT INTO my_v4(last_name,department_id) VALUES('虚竹',90);
-	
-	3、修改视图的数据
-	
-	UPDATE my_v4 SET last_name ='梦姑' WHERE last_name='虚竹';
+2、插入视图的数据
+INSERT INTO my_v4(last_name,department_id) VALUES('虚竹',90);
 
-​	4、删除视图的数据
-​	DELETE FROM my_v4;
+3、修改视图的数据
+
+UPDATE my_v4 SET last_name ='梦姑' WHERE last_name='虚竹';
+
+4、删除视图的数据
+DELETE FROM my_v4;
+```
+
+
 
 ### 某些视图不能更新
 ​	包含以下关键字的sql语句：分组函数、distinct、group  by、having、union或者union all
@@ -945,6 +946,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 ​	join
 ​	from一个不能更新的视图
 ​	where子句的子查询引用了from子句中的表
+
 ### 视图逻辑的更新
 	#方式一：
 	CREATE OR REPLACE VIEW test_v7
