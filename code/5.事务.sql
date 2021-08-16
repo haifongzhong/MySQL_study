@@ -79,17 +79,30 @@ update 表 set 郭襄的余额=1500 where name='郭襄'
 
 */
 
+# 查看自动提交是否开启
 SHOW VARIABLES LIKE 'autocommit';
+# 查看MySQL支持的存储引擎
 SHOW ENGINES;
 
 #1.演示事务的使用步骤
+
+USE test;
+DROP TABLE IF EXISTS account;
+CREATE TABLE IF NOT EXISTS account(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(20),
+	balance DOUBLE
+);
+
+INSERT INTO account(username,balance)
+VALUES('张无忌',1000),('赵敏',1000);
 
 #开启事务
 SET autocommit=0;
 START TRANSACTION;
 #编写一组事务的语句
-UPDATE account SET balance = 1000 WHERE username='张无忌';
-UPDATE account SET balance = 1000 WHERE username='赵敏';
+UPDATE account SET balance = 500 WHERE username='张无忌';
+UPDATE account SET balance = 1500 WHERE username='赵敏';
 
 #结束事务
 ROLLBACK;
