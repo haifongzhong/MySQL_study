@@ -19,13 +19,13 @@
 
 DROP TABLE IF EXISTS tab_identity;
 CREATE TABLE tab_identity(
-	userId INT(7) ZEROFILL PRIMARY KEY AUTO_INCREMENT ,
-	userName VARCHAR(20) NOT NULL
+	userId INT(7) zerofill primary key auto_increment ,
+	userName varchar(20) not null
 );
 TRUNCATE TABLE tab_identity;		
-DELETE  FROM tab_identity;
+delete  from tab_identity;
 
-INSERT INTO tab_identity(userId,userName) VALUES(NULL,'john');
+INSERT INTO tab_identity(userId,userName) VALUES(null,'john');
 INSERT INTO tab_identity(userName) VALUES('lucy');
 SELECT * FROM tab_identity;
 
@@ -41,7 +41,7 @@ INSERT INTO tab_identity(userId,userName) VALUES(NULL,'john');
 
 #二、修改表时设置标识列
 
-ALTER TABLE tab_identity MODIFY COLUMN userId INT PRIMARY KEY AUTO_INCREMENT;
+alter table tab_identity modify column userId int AUTO_INCREMENT;
 
 #三、修改表时删除标识列
 
