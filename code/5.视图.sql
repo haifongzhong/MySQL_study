@@ -219,7 +219,7 @@ FROM employees e
 JOIN departments d
 ON e.department_id  = d.department_id;
 
-#更新
+#更新(可以update不能insert)
 
 SELECT * FROM myv4;
 UPDATE myv4 SET last_name  = '张飞' WHERE last_name='Whalen';
@@ -247,7 +247,7 @@ CREATE OR REPLACE VIEW myv6
 AS
 
 SELECT last_name,email,salary
-FROM employees
+FROM employees		#表1和where中的表2相同
 WHERE employee_id IN(
 	SELECT  manager_id
 	FROM employees

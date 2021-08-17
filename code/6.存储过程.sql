@@ -85,11 +85,13 @@ BEGIN
 END $
 
 #调用
-CALL myp2('柳岩')$
+CALL myp2('王语嫣')$
 
 #案例2 ：创建存储过程实现，用户是否登录成功
 
-CREATE PROCEDURE myp4(IN username VARCHAR(20),IN PASSWORD VARCHAR(20))
+DROP PROCEDURE IF EXISTS myp3$
+
+CREATE PROCEDURE myp3(IN username VARCHAR(20),IN PASSWORD VARCHAR(20))
 BEGIN
 	DECLARE result INT DEFAULT 0;#声明并初始化
 	
@@ -98,7 +100,7 @@ BEGIN
 	WHERE admin.username = username
 	AND admin.password = PASSWORD;
 	
-	SELECT IF(result>0,'成功','失败');#使用
+	SELECT IF(result>0,'成功','失败') AS "查找";#使用
 END $
 
 #调用
@@ -108,7 +110,7 @@ CALL myp3('张飞','8888')$
 #3.创建out 模式参数的存储过程
 #案例1：根据输入的女神名，返回对应的男神名
 
-CREATE PROCEDURE myp6(IN beautyName VARCHAR(20),OUT boyName VARCHAR(20))
+CREATE PROCEDURE myp5(IN beautyName VARCHAR(20),OUT boyName VARCHAR(20))
 BEGIN
 	SELECT bo.boyname INTO boyname
 	FROM boys bo
@@ -119,9 +121,14 @@ BEGIN
 END $
 
 
+#调用
+CALL myp5('小昭',@name)$
+SELECT @name $
+
+
 #案例2：根据输入的女神名，返回对应的男神名和魅力值
 
-CREATE PROCEDURE myp7(IN beautyName VARCHAR(20),OUT boyName VARCHAR(20),OUT usercp INT) 
+CREATE PROCEDURE myp6(IN beautyName VARCHAR(20),OUT boyName VARCHAR(20),OUT usercp INT) 
 BEGIN
 	SELECT boys.boyname ,boys.usercp INTO boyname,usercp
 	FROM boys 
@@ -133,7 +140,7 @@ END $
 
 
 #调用
-CALL myp7('小昭',@name,@cp)$
+CALL myp6('小昭',@name,@cp)$
 SELECT @name,@cp$
 
 
@@ -141,7 +148,7 @@ SELECT @name,@cp$
 #4.创建带inout模式参数的存储过程
 #案例1：传入a和b两个值，最终a和b都翻倍并返回
 
-CREATE PROCEDURE myp8(INOUT a INT ,INOUT b INT)
+CREATE PROCEDURE myp7(INOUT a INT ,INOUT b INT)
 BEGIN
 	SET a=a*2;
 	SET b=b*2;
@@ -150,18 +157,18 @@ END $
 #调用
 SET @m=10$
 SET @n=20$
-CALL myp8(@m,@n)$
+CALL myp7(@m,@n)$
 SELECT @m,@n$
 
 
 #三、删除存储过程
 #语法：drop procedure 存储过程名
-DROP PROCEDURE p1;
-DROP PROCEDURE p2,p3;#×
+DROP PROCEDURE myp1;
+DROP PROCEDURE myp2,myp3;	#✘
 
 #四、查看存储过程的信息
-DESC myp2;×
-SHOW CREATE PROCEDURE  myp2;
+DESC myp3;	#✘
+SHOW CREATE PROCEDURE  myp3;
 
 
 

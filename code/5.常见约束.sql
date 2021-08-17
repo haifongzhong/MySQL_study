@@ -140,8 +140,8 @@ CREATE TABLE IF NOT EXISTS major(
 
 
 CREATE TABLE IF NOT EXISTS stuinfo(
-	id INT(9) ZEROFILL PRIMARY KEY,
-	stuname VARCHAR(20),
+	id INT(9) ZEROFILL PRIMARY KEY AUTO_INCREMENT,
+	stuname VARCHAR(20) NOT NULL,
 	sex CHAR(1),
 	age INT DEFAULT 18,
 	seat INT UNIQUE,
@@ -191,7 +191,13 @@ ALTER TABLE stuinfo ADD UNIQUE(seat);
 
 
 #5.添加外键
-ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+#①传统的方式添加外键
+	ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+#②可以级联删除的方式添加外键
+	ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id) ON DELETE CASCADE;
+#③可以级联置空的方式添加外键
+	ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id) ON DELETE SET NULL;
+
 
 #三、修改表时删除约束
 

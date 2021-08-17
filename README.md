@@ -685,7 +685,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 		比如性别
 		PRIMARY KEY:主键，用于保证该字段的值具有唯一性，并且非空
 		比如学号、员工编号等
-		UNIQUE:唯一，用于保证该字段的值具有唯一性，可以为空
+		UNIQUE:唯一，用于保证该字段的值具有唯一性，可以为空（为空可以重复出现）
 		比如座位号
 		CHECK:检查约束【mysql中不支持】
 		比如年龄、性别
@@ -779,7 +779,17 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
         #	②表级约束
         	ALTER TABLE stuinfo ADD UNIQUE(seat);
         #5.添加外键
-        ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+        #	①传统的方式添加外键（删除主表元素时必须先删除从表引用）
+			ALTER TABLE stuinfo 
+			ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+		#	②可以级联删除的方式添加外键（删除主表元素后从表中的元素自动被删除）
+			ALTER TABLE stuinfo 
+			ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id) 
+			ON DELETE CASCADE;
+		#	③可以级联置空的方式添加外键（删除主表元素后从表元素外键值自动置空）
+			ALTER TABLE stuinfo 
+			ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id) 
+			ON DELETE SET NULL;
 		
 ```
 
@@ -809,7 +819,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 ```tex
 又称为自增长列
 含义：可以不用手动的插入值，系统提供默认的序列值
-
+关键字： AUTO_INCREMENT
 
 特点：
 1、标识列必须和主键搭配吗？	不一定，但要求是一个（唯一）key(primary key/unique/foreign key)
@@ -861,14 +871,16 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 		3、提交事务或回滚事务
 ### 使用到的关键字
 
-	set autocommit=0;
-	start transaction;
-	commit;
-	rollback;
+	set autocommit=0;	#取消自动提交
+	start transaction;	#可省略
 	
-	savepoint  断点
-	commit to 断点
-	rollback to 断点
+	commit;				#提交事务
+	rollback;			#回滚事务
+	
+	savepoint  断点			#设置事务断点
+	commit to 断点			#提交断点前的事务
+	rollback to 断点			#回滚到断点
+	release savepoint 断点	#释放断点
 
 ### 事务的隔离级别
 
@@ -903,10 +915,10 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 
 视图和表的区别：	
 
-|      | 使用方式 | 占用物理空间                |
-| ---- | -------- | --------------------------- |
-| 视图 | 完全相同 | 不占用，仅仅保存的是sql逻辑 |
-| 表   | 完全相同 | 占用                        |
+|      | 使用方式 | 占用物理空间                | 使用           |
+| ---- | -------- | --------------------------- | -------------- |
+| 视图 | 完全相同 | 不占用，仅仅保存的是sql逻辑 | 一般只使用查询 |
+| 表   | 完全相同 | 占用                        | 增删改查       |
 
 视图的好处：
 
@@ -916,7 +928,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 
 ### 视图的创建
 ​	语法：
-​	CREATE VIEW  视图名
+​	CREATE【OR REPLACE】 VIEW  视图名
 ​	AS
 ​	查询语句;
 
@@ -945,7 +957,7 @@ DELETE FROM my_v4;
 ​	Select中包含子查询
 ​	join
 ​	from一个不能更新的视图
-​	where子句的子查询引用了from子句中的表
+​	where子句的子查询	引用了from子句中的表
 
 ### 视图逻辑的更新
 	#方式一：
@@ -1080,8 +1092,8 @@ DELETE FROM my_v4;
 	SELECT @@autocommit;
 	SELECT @@session.tx_isolation;
 	为某个会话变量赋值
-	SET @@session.tx_isolation='read-uncommitted';
-	SET SESSION tx_isolation='read-committed';
+	SET @@session.transaction_isolation='read-uncommitted';
+	SET SESSION transaction_isolation='read-committed';
 
 ### 自定义变量
 一、用户变量
@@ -1094,13 +1106,13 @@ DELETE FROM my_v4;
 赋值：
 
 	方式一：一般用于赋简单的值
-	SET 变量名=值;
-	SET 变量名:=值;
-	SELECT 变量名:=值;
+	SET @变量名=值;
+	SET @变量名:=值;
+	SELECT @变量名:=值;
 
 
 	方式二：一般用于赋表 中的字段值
-	SELECT 字段名或表达式 INTO 变量
+	SELECT 字段名或表达式 INTO @变量
 	FROM 表;
 
 使用：
@@ -1132,9 +1144,10 @@ DELETE FROM my_v4;
 
 二者的区别：
 
-			作用域			定义位置		语法
-用户变量	当前会话		会话的任何地方		加@符号，不用指定类型
-局部变量	定义它的BEGIN END中 	BEGIN END的第一句话	一般不用加@,需要指定类型
+|          | 作用域              | 定义位置            | 语法                     |
+| -------- | ------------------- | ------------------- | ------------------------ |
+| 用户变量 | 当前会话            | 会话的任何地方      | 加@符号，不用指定类型    |
+| 局部变量 | 定义它的BEGIN END中 | BEGIN END的第一句话 | 一般不用加@,需要指定类型 |
 
 ### 分支
 一、if函数

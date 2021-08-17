@@ -85,7 +85,7 @@ SHOW VARIABLES LIKE 'autocommit';
 SHOW ENGINES;
 
 #1.演示事务的使用步骤
-
+	
 USE test;
 DROP TABLE IF EXISTS account;
 CREATE TABLE IF NOT EXISTS account(
