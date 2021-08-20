@@ -300,17 +300,3 @@ WHERE last_name LIKE 'K_ing';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-

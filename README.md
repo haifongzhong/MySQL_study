@@ -910,7 +910,7 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 
 
 
-## 视图
+## [视图](/code/5.视图.sql)
 含义：理解成一张虚拟的表
 
 视图和表的区别：	
@@ -979,7 +979,7 @@ DELETE FROM my_v4;
 ​	DESC test_v7;
 ​	SHOW CREATE VIEW test_v7;
 
-## 存储过程
+## [存储过程](/code/6.存储过程.sql)
 
 含义：一组经过预先编译的sql语句的集合
 好处：
@@ -1037,12 +1037,27 @@ DELETE FROM my_v4;
 
 ​	call 存储过程名(实参列表)
 
-## 函数
+## [函数](/code/6.函数.sql)
 
 ### 创建函数
 
 学过的函数：LENGTH、SUBSTR、CONCAT等
-语法：
+语法：【[创建失败](https://www.cnblogs.com/miracle-luna/p/10856302.html)】
+
+```tex
+设置用户二进制日志所引起的安全事件
+# 方式一（临时）
+	SET GLOBAL log_bin_trust_function_creators = 1;
+# 方式二（临时）推荐
+	create function xxxx(XXX) returns XXX
+	reads sql data
+	begin
+	end 
+# 方式三（永久）
+	在my.cnf配置文件里面设置
+	
+	log-bin-trust-function-creators=1
+```
 
 	CREATE FUNCTION 函数名(参数名 参数类型,...) RETURNS 返回类型
 	BEGIN
@@ -1059,13 +1074,14 @@ DELETE FROM my_v4;
 
 ### 函数和存储过程的区别
 
-			关键字		调用语法	返回值			应用场景
-	函数		FUNCTION	SELECT 函数()	只能是一个		一般用于查询结果为一个值并返回时，当有返回值而且仅仅一个
-	存储过程	PROCEDURE	CALL 存储过程()	可以有0个或多个		一般用于更新
+|          | 关键字    | 调用语法        | 返回值          | 应用场景                                                 |
+| :------: | :-------- | :-------------- | --------------- | -------------------------------------------------------- |
+|   函数   | FUNCTION  | SELECT 函数()   | 只能是一个      | 一般用于查询结果为一个值并返回时，当有返回值而且仅仅一个 |
+| 存储过程 | PROCEDURE | CALL 存储过程() | 可以有0个或多个 | 一般用于更新                                             |
 
 ## 流程控制结构
 
-### 系统变量
+### [系统变量](/code/6.变量.sql)
 一、全局变量
 
 作用域：针对于所有会话（连接）有效，但不能跨重启
@@ -1149,7 +1165,7 @@ DELETE FROM my_v4;
 | 用户变量 | 当前会话            | 会话的任何地方      | 加@符号，不用指定类型    |
 | 局部变量 | 定义它的BEGIN END中 | BEGIN END的第一句话 | 一般不用加@,需要指定类型 |
 
-### 分支
+### [分支](/code/6.流程控制结构.sql)
 一、if函数
 	语法：if(条件，值1，值2)
 	特点：可以用在任何位置
@@ -1174,9 +1190,20 @@ DELETE FROM my_v4;
 	else 结果n或语句n(如果是语句，需要加分号)
 	end 【case】（如果是放在begin end中需要加上case，如果放在select后面不需要）
 
-
 特点：
-	可以用在任何位置
+	①
+
+​	可以作为表达式，嵌套在其他语句中使用，可以放在任何地方，BEGIN　END中或者BEGIN END的外面
+
+​	可以作为独立的语句去使用，只能放在BEGIN END中	
+
+​	②
+
+​	如果WHEN中的值满足条件成立，则执行对应的THEN后面的语句，并且结束CASE
+
+​	如果都不满足，则执行ELSE中的语句或值
+
+​	③ELSE可以省略，如果ELSE省略了，并且所有WHEN条件都不满足，则返回NULL
 
 三、if elseif语句
 
@@ -1191,12 +1218,19 @@ DELETE FROM my_v4;
 特点：
 	只能用在begin end中！！！！！！！！！！！！！！！
 
-
 三者比较：
 			应用场合
 	if函数		简单双分支
 	case结构	等值判断 的多分支
 	if结构		区间判断 的多分支
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+
 
 ### 循环
 

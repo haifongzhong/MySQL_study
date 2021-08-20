@@ -1,4 +1,4 @@
-﻿#流程控制结构
+#流程控制结构
 /*
 顺序、分支、循环
 
@@ -17,7 +17,7 @@
 /*
 语法：
 情况1：类似于switch
-case 变量或表达式
+case 变量或表	达式
 when 值1 then 语句1;
 when 值2 then 语句2;
 ...
@@ -36,7 +36,22 @@ end
 
 
 */
+/*
+特点：
+	①
 
+​	可以作为表达式，嵌套在其他语句中使用，可以放在任何地方，BEGIN　END中或者BEGIN END的外面
+
+​	可以作为独立的语句去使用，只能放在BEGIN END中	
+
+​	②
+
+​	如果WHEN中的值满足条件成立，则执行对应的THEN后面的语句，并且结束CASE
+
+​	如果都不满足，则执行ELSE中的语句或值
+
+​	③ELSE可以省略，如果ELSE省略了，并且所有WHEN条件都不满足，则返回NULL
+*/
 #3.if结构
 
 /*
@@ -67,7 +82,21 @@ BEGIN
 	
 END $
 
-SELECT test_if(87)$
+#------------------------------------------
+DELIMITER $
+
+CREATE PROCEDURE test_case(IN score INT)
+BEGIN
+	SET @score=87;
+	CASE 
+	WHEN @score>=90 AND @sccore<=100 THEN  SELECT 'A';
+	WHEN @score>=80 THEN  SELECT 'B';
+	WHEN @score>=60 THEN  SELECT 'C';
+	ELSE  SELECT 'D';
+	END;
+END $
+
+SELECT test_if(87);
 
 #案例2：创建存储过程，如果工资<2000,则删除，如果5000>工资>2000,则涨工资1000，否则涨工资500
 

@@ -42,8 +42,8 @@ SELECT 函数名(参数列表)
 CREATE FUNCTION myf1() RETURNS INT
 BEGIN
 
-	DECLARE c INT DEFAULT 0;#定义局部变量
-	SELECT COUNT(*) INTO c#赋值
+	DECLARE c INT DEFAULT 0;	#定义局部变量
+	SELECT COUNT(*) INTO c 		#赋值
 	FROM employees;
 	RETURN c;
 	
