@@ -69,34 +69,39 @@ end if;
 
 #案例1：创建函数，实现传入成绩，如果成绩>90,返回A，如果成绩>80,返回B，如果成绩>60,返回C，否则返回D
 
-CREATE FUNCTION test_if(score FLOAT) RETURNS CHAR
+
+DELIMITER $
+
+CREATE FUNCTION test_if(score INT) RETURNS CHAR
+READS SQL DATA
 BEGIN
-	DECLARE ch CHAR DEFAULT 'A';
-	IF score>90 THEN SET ch='A';
-	ELSEIF score>80 THEN SET ch='B';
-	ELSEIF score>60 THEN SET ch='C';
-	ELSE SET ch='D';
+	DECLARE ch CHAR DEFAULT '0';
+	IF score>90 AND score<100 THEN SET ch='A';
+	ELSEIF score>80 AND score<100 THEN SET ch='B';
+	ELSEIF score>60 AND score<100 THEN SET ch='C';
+	ELSEIF score<60 AND score>0 THEN SET ch='C';
+	ELSE SET ch='0';
 	END IF;
 	RETURN ch;
 	
-	
 END $
+
+SELECT test_if(87);
 
 #------------------------------------------
 DELIMITER $
 
 CREATE PROCEDURE test_case(IN score INT)
 BEGIN
-	SET @score=87;
 	CASE 
-	WHEN @score>=90 AND @sccore<=100 THEN  SELECT 'A';
-	WHEN @score>=80 THEN  SELECT 'B';
-	WHEN @score>=60 THEN  SELECT 'C';
-	ELSE  SELECT 'D';
-	END;
+	WHEN score>=90 AND score<=100 THEN  SELECT 'A' AS "输入成绩等级";
+	WHEN score>=80 THEN  SELECT 'B' AS "输入成绩等级";
+	WHEN score>=60 THEN  SELECT 'C' AS "输入成绩等级";
+	ELSE  SELECT 'D' AS "输入成绩等级";
+	END CASE;
 END $
 
-SELECT test_if(87);
+CALL test_case(87);
 
 #案例2：创建存储过程，如果工资<2000,则删除，如果5000>工资>2000,则涨工资1000，否则涨工资500
 
@@ -271,19 +276,6 @@ while(i<=insertCount){
 }
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

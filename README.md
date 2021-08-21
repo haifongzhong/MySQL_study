@@ -1219,20 +1219,22 @@ DELETE FROM my_v4;
 	只能用在begin end中！！！！！！！！！！！！！！！
 
 三者比较：
-			应用场合
-	if函数		简单双分支
-	case结构	等值判断 的多分支
-	if结构		区间判断 的多分支
 
-|      |      |      |
-| ---- | ---- | ---- |
-|      |      |      |
-|      |      |      |
-|      |      |      |
+|          | 应用场合          |
+| -------- | ----------------- |
+| if函数   | 简单双分支        |
+| case结构 | 等值判断 的多分支 |
+| if结构   | 区间判断 的多分支 |
 
 
 
 ### 循环
+
+分类：
+
+```tex
+while、loop、repeat
+```
 
 语法：
 
@@ -1241,6 +1243,13 @@ DELETE FROM my_v4;
 		循环体
 	END WHILE 【标签】;
 
+循环控制：
+
+```tex
+iterate	类似于	continue，继续，结束本次循环，继续下一次
+leave	类似于	beak，跳出，结束8当前所在的循环
+```
+
 特点：
 
 	只能放在BEGIN END里面
@@ -1248,4 +1257,12 @@ DELETE FROM my_v4;
 	如果要搭配leave跳转语句，需要使用标签，否则可以不用标签
 	
 	leave类似于java中的break语句，跳出所在循环！！！
+
+对比：
+
+| 名称   | 语法                                                         | 特点             | 位置         |
+| ------ | ------------------------------------------------------------ | ---------------- | ------------ |
+| while  | label:while loop_condition<br />do<br />     loop_list<br />End while label; | 先判断后执行     | begin end 中 |
+| repeat | label:repeat<br />      loop_list<br />Until end_condition<br />end repeat label; | 先执行后判断     | begin end 中 |
+| loop   | Label:loop<br />      loop_list<br />End loop label;         | 没有条件的死循环 | begin end 中 |
 

@@ -20,7 +20,7 @@ BEGIN
 	DECLARE len INT;#代表截取的字符长度
 	WHILE i<=insertcount DO
 		SET startIndex=FLOOR(RAND()*26+1);#代表初始索引，随机范围1-26
-		SET len=FLOOR(RAND()*(20-startIndex+1)+1);#代表截取长度，随机范围1-（20-startIndex+1）
+		SET len=FLOOR(RAND()*(FLOOR((26-startIndex+1)/26.0*20)+1)+1);#代表截取长度，随机范围1-（20-startIndex+1）
 		INSERT INTO stringcontent(content) VALUES(SUBSTR(str,startIndex,len));
 		SET i=i+1;
 	END WHILE;
