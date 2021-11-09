@@ -164,7 +164,7 @@
 
 	类似于Java中 :System.out.println(要打印的东西);
 	特点：
-	①通过select查询完的结果 ，是一个虚拟的表格，不是真实存在
+	① 通过select查询完的结果 ，是一个虚拟的表格，不是真实存在
 	② 要查询的东西 可以是常量值、可以是表达式、可以是字段、可以是函数
 
 ### 进阶2：[条件查询](/code/1.条件查询.sql)
@@ -900,10 +900,10 @@ from_unixtime：将timestamp 形式整数 转化为 date类型
 如何避免事务的并发问题？
 
 	通过设置事务的隔离级别
-	1、READ UNCOMMITTED
-	2、READ COMMITTED 可以避免脏读
-	3、REPEATABLE READ 可以避免脏读、不可重复读和一部分幻读（默认）
-	4、SERIALIZABLE可以避免脏读、不可重复读和幻读，但效率低下
+	1、READ UNCOMMITTED(读取未提交的数据) ：数据库主要避免脏读即可
+	2、READ COMMITTED(读取已提交的数据) 		可以避免脏读
+	3、REPEATABLE READ(可重复读) 		可以避免脏读、不可重复读和一部分幻读（默认）
+	4、SERIALIZABLE(串行化)			可以避免脏读、不可重复读和幻读，但效率低下
 
 设置隔离级别：
 
