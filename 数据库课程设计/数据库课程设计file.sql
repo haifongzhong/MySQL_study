@@ -75,9 +75,24 @@ INSERT INTO projects(`project_id`,`project_name`,`principal_id`) VALUES ('G-SNS5
 #⑥创建员工参与表
 INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1352D','001000');
 INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1287B','001001');
-INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1382E','001002');
-INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1352D','001003');
-INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1287B','001004');
-INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1382E','001004');
-
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1382E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1372E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1312E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1462E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1282E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS7382E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1395E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1751E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS8423E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS7842E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS7846E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1241E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1785E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS4551E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS3225E','001004');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS7844E','001001');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS1542E','001002');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS7775E','001000');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS3299E','001007');
+INSERT INTO participation(`project_id`,`employee_id`) VALUES ('G-SNS5642E','001002');
 
